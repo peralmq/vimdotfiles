@@ -1,26 +1,71 @@
 " Pathogen to auto install plugins in ~/vim/bundle
-call pathogen#runtime_append_all_bundles()
-call pathogen#helptags()
+call pathogen#infect()
 
-filetype plugin indent on
+" When vimrc is edited, reload vim
+au! BufWritePost .vimrc source $MYVIMRC
 
-syntax on
-call pathogen#infect() 
+" Make is possible to delete previous entries with backspace
+set backspace=indent,eol,start
 
-" Show line numbers
-set number
+set number " Show line numbers
+set ruler " Show current position in status
+
+
+" Don't use backup or swapfiles
+set nobackup
+set noswapfile
 
 " Enable mouse scrolling in console vim
-set mouse=a
+"set mouse=a
 
 " Tab stuff
 set tabstop=4
 set shiftwidth=4
 set expandtab
 
+" make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
+au FileType python set softtabstop=4 tabstop=4 shiftwidth=4
+
 " Enable backspace outside of newly inserted text
 set nocompatible
 
+" CommandT
+let mapleader = ','
+
 filetype plugin indent on
 
+" Enable syntax highlighting
 syntax on
+
+" Set colorscheme
+colorscheme wombat256mod
+set t_Co=256
+
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
+" Don't wrap lineendings
+set nowrap
+
+" Ignore the follwing files in CommandT
+set wildignore+=.pyc
+
+" Highligh searches
+set hlsearch
+
+" See tabs
+set list listchars=tab:\ \ ,trail:·
+
+" write buffer when leaving
+set autowrite
+
+" show the current mode
+set showmode
+
+" Refresh files changed outside of vim if not changed in vim
+set autoread
+
+" Python (un)comment
+map ,# :call CommentLineToEnd('#')<CR>+
