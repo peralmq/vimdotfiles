@@ -3,6 +3,7 @@ call pathogen#infect()
 
 " When vimrc is edited, reload vim
 au! BufWritePost .vimrc source $MYVIMRC
+autocmd BufRead,BufNewFile *.tac set filetype=python
 
 " Make is possible to delete previous entries with backspace
 set backspace=indent,eol,start
@@ -50,7 +51,7 @@ noremap <Right> <nop>
 set nowrap
 
 " Ignore the follwing files in CommandT
-set wildignore+=.pyc
+set wildignore+=*.pyc,*.orig,*.egg-info
 
 " Highligh searches
 set hlsearch
