@@ -70,3 +70,6 @@ set autoread
 
 " Python (un)comment
 map ,# :call CommentLineToEnd('#')<CR>+
+
+" Folding on with indent
+set foldenable foldmethod=indent
