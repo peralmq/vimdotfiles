@@ -4,6 +4,7 @@ call pathogen#infect()
 " When vimrc is edited, reload vim
 au! BufWritePost .vimrc source $MYVIMRC
 autocmd BufRead,BufNewFile *.tac set filetype=python
+au BufRead,BufNewFile *.hamlc set filetype=haml
 
 " Make is possible to delete previous entries with backspace
 set backspace=indent,eol,start
@@ -20,8 +21,8 @@ set noswapfile
 "set mouse=a
 
 " Tab stuff
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set expandtab
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
