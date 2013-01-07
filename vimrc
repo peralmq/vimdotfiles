@@ -38,6 +38,7 @@ filetype plugin indent on
 
 " Enable syntax highlighting
 syntax on
+set showmatch
 
 " Set colorscheme
 colorscheme wombat256mod
@@ -73,4 +74,4 @@ set autoread
 map ,# :call CommentLineToEnd('#')<CR>+
 
 " Folding on with indent
-set foldenable foldmethod=indent
+set foldmethod=indent
