@@ -12,7 +12,6 @@ set backspace=indent,eol,start
 set number " Show line numbers
 set ruler " Show current position in status
 
-
 " Don't use backup or swapfiles
 set nobackup
 set noswapfile
@@ -58,8 +57,9 @@ set wildignore+=*.pyc,*.orig,*.egg-info
 " Highligh searches
 set hlsearch
 
-" See tabs
-set list listchars=tab:\ \ ,trail:·
+" See trailing whitespaces
+set encoding=utf-8 " force encoding to utf-8
+set list listchars=tab:\|\ ,trail:·
 
 " write buffer when leaving
 set autowrite
