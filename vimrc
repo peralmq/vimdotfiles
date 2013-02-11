@@ -57,6 +57,9 @@ set wildignore+=*.pyc,*.orig,*.egg-info
 " Highligh searches
 set hlsearch
 
+" Search as you type
+set incsearch
+
 " See trailing whitespaces
 set encoding=utf-8 " force encoding to utf-8
 set list listchars=tab:\|\ ,trail:·
