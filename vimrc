@@ -1,13 +1,11 @@
-" Pathogen to auto install plugins in ~/vim/bundle
-call pathogen#infect()
-
 " When vimrc is edited, reload vim
 au! BufWritePost .vimrc source $MYVIMRC
-autocmd BufRead,BufNewFile *.tac set filetype=python
-au BufRead,BufNewFile *.hamlc set filetype=haml
 
 " Make is possible to delete previous entries with backspace
 set backspace=indent,eol,start
+
+" Enable backspace outside of newly inserted text
+set nocompatible
 
 set number " Show line numbers
 set ruler " Show current position in status
@@ -16,9 +14,6 @@ set ruler " Show current position in status
 set nobackup
 set noswapfile
 
-" Enable mouse scrolling in console vim
-"set mouse=a
-
 " Tab stuff
 set tabstop=2
 set shiftwidth=2
@@ -26,12 +21,6 @@ set expandtab
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4
-
-" Enable backspace outside of newly inserted text
-set nocompatible
-
-" CommandT
-let mapleader = ','
 
 filetype plugin indent on
 
@@ -51,9 +40,6 @@ noremap <Right> <nop>
 " Don't wrap lineendings
 set nowrap
 
-" Ignore the follwing files in CommandT
-set wildignore+=*.pyc,*.orig,*.egg-info
-
 " Highligh searches
 set hlsearch
 
@@ -64,17 +50,35 @@ set incsearch
 set encoding=utf-8 " force encoding to utf-8
 set list listchars=tab:\|\ ,trail:·
 
-" write buffer when leaving
-set autowrite
-
 " show the current mode
 set showmode
-
-" Refresh files changed outside of vim if not changed in vim
-set autoread
 
 " Python (un)comment
 map ,# :call CommentLineToEnd('#')<CR>+
 
-" Folding on with indent
+" Folding on indent and open unfolded
 set foldmethod=indent
+set foldlevel=99
+
+set visualbell
+set lazyredraw
+
+" Ignore the follwing files in ctrlp
+set wildignore+=*.pyc,*.orig,*.egg-info
+
+" Let ctrlp keep searching from where vim was started
+let g:ctrlp_working_path_mode = ''
+
+" Vundle
+filetype off
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+Bundle 'gmarik/vundle'
+" Bundles!
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'kien/ctrlp.vim'
+Bundle 'epmatsw/ag.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'pylint.vim'
+Bundle 'kevinw/pyflakes-vim'
+filetype plugin indent on

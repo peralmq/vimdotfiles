@@ -25,7 +25,7 @@ if !exists("b:did_python_init")
     let b:did_python_init = 0
 
     if !has('python')
-        echoerr "Error: the pyflakes.vim plugin requires Vim to be compiled with +python"
+        " the pyflakes.vim plugin requires Vim to be compiled with +python
         finish
     endif
 
@@ -44,7 +44,8 @@ if sys.version_info[:2] < (2, 5):
 
 # get the directory this script is in: the pyflakes python module should be installed there.
 scriptdir = os.path.join(os.path.dirname(vim.eval('expand("<sfile>")')), 'pyflakes')
-sys.path.insert(0, scriptdir)
+if scriptdir not in sys.path:
+    sys.path.insert(0, scriptdir)
 
 import ast
 from pyflakes import checker, messages
@@ -114,6 +115,7 @@ def check(buffer):
         old_globals = getattr(checker,' _MAGIC_GLOBALS', [])
         checker._MAGIC_GLOBALS = set(old_globals) | builtins
 
+        filename = '(none)' if filename is None else filename
         w = checker.Checker(tree, filename)
 
         checker._MAGIC_GLOBALS = old_globals
@@ -201,6 +203,7 @@ if !exists("*s:ActivatePyflakesQuickFixWindow")
         try
             silent colder 9 " go to the bottom of quickfix stack
         catch /E380:/
+        catch /E788:/
         endtry
 
         if s:pyflakes_qf > 0
@@ -234,25 +237,30 @@ if !exists("*s:RunPyflakes")
         
         python << EOF
 for w in check(vim.current.buffer):
+    if not isinstance(w.lineno, int):
+        lineno = str(w.lineno.lineno)
+    else:
+        lineno = str(w.lineno)
+
     vim.command('let s:matchDict = {}')
-    vim.command("let s:matchDict['lineNum'] = " + str(w.lineno))
+    vim.command("let s:matchDict['lineNum'] = " + lineno)
     vim.command("let s:matchDict['message'] = '%s'" % vim_quote(w.message % w.message_args))
-    vim.command("let b:matchedlines[" + str(w.lineno) + "] = s:matchDict")
+    vim.command("let b:matchedlines[" + lineno + "] = s:matchDict")
     
     vim.command("let l:qf_item = {}")
     vim.command("let l:qf_item.bufnr = bufnr('%')")
     vim.command("let l:qf_item.filename = expand('%')")
-    vim.command("let l:qf_item.lnum = %s" % str(w.lineno))
+    vim.command("let l:qf_item.lnum = %s" % lineno)
     vim.command("let l:qf_item.text = '%s'" % vim_quote(w.message % w.message_args))
     vim.command("let l:qf_item.type = 'E'")
 
     if getattr(w, 'col', None) is None or isinstance(w, SyntaxError):
         # without column information, just highlight the whole line
         # (minus the newline)
-        vim.command(r"let s:mID = matchadd('PyFlakes', '\%" + str(w.lineno) + r"l\n\@!')")
+        vim.command(r"let s:mID = matchadd('PyFlakes', '\%" + lineno + r"l\n\@!')")
     else:
         # with a column number, highlight the first keyword there
-        vim.command(r"let s:mID = matchadd('PyFlakes', '^\%" + str(w.lineno) + r"l\_.\{-}\zs\k\+\k\@!\%>" + str(w.col) + r"c')")
+        vim.command(r"let s:mID = matchadd('PyFlakes', '^\%" + lineno + r"l\_.\{-}\zs\k\+\k\@!\%>" + str(w.col) + r"c')")
 
         vim.command("let l:qf_item.vcol = 1")
         vim.command("let l:qf_item.col = %s" % str(w.col + 1))
