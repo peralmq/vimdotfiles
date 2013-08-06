@@ -20,7 +20,8 @@ set shiftwidth=2
 set expandtab
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
-au FileType python set softtabstop=4 tabstop=4 shiftwidth=4
+au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 colorcolumn=120
+au BufNewFile,BufRead *.hamlc set filetype=haml
 
 filetype plugin indent on
 
@@ -62,12 +63,16 @@ set foldlevel=99
 
 set visualbell
 set lazyredraw
+set noshowcmd
+set scrolljump=5
 
 " Ignore the follwing files in ctrlp
 set wildignore+=*.pyc,*.orig,*.egg-info
 
 " Let ctrlp keep searching from where vim was started
 let g:ctrlp_working_path_mode = ''
+
+let g:agprg = 'ag --column' "Let Ag keep searching from where vim was started
 
 " Vundle
 filetype off
@@ -76,9 +81,16 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 " Bundles!
 Bundle 'Valloric/YouCompleteMe'
-Bundle 'kien/ctrlp.vim'
-Bundle 'epmatsw/ag.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'pylint.vim'
+Bundle 'kchmck/vim-coffee-script'
 Bundle 'kevinw/pyflakes-vim'
+Bundle 'kien/ctrlp.vim'
+Bundle 'knatten/ToggleComment'
+Bundle 'pylint.vim'
+Bundle 'riking/ag.vim'
+Bundle 'scrooloose/syntastic'
+Bundle 'tpope/vim-commentary'
+Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-haml'
+Bundle 'tpope/vim-surround'
+Bundle 'editorconfig/editorconfig-vim'
 filetype plugin indent on
