@@ -20,7 +20,9 @@ set shiftwidth=2
 set expandtab
 
 " make Python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
+au BufNewFile,BufRead *.tac set filetype=python
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 colorcolumn=120
+
 au BufNewFile,BufRead *.hamlc set filetype=haml
 
 filetype plugin indent on
@@ -68,11 +70,26 @@ set scrolljump=5
 
 " Ignore the follwing files in ctrlp
 set wildignore+=*.pyc,*.orig,*.egg-info
+let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 " Let ctrlp keep searching from where vim was started
 let g:ctrlp_working_path_mode = ''
 
-let g:agprg = 'ag --column' "Let Ag keep searching from where vim was started
+let g:syntastic_python_checkers=['flake8'] " pylint, pyflake, macbe
+
+" YouCompleteMe
+let g:ycm_autoclose_preview_window_after_completion = 1
+
+if executable('ag')
+  let g:ackprg = 'ag --nogroup --nocolor --column -w'
+end
+
+" Go
+filetype plugin indent off
+set runtimepath+=$GOROOT/misc/vim
+filetype plugin indent on
+syntax on
+autocmd BufWritePre *.go Fmt
 
 " Vundle
 filetype off
@@ -81,16 +98,14 @@ call vundle#rc()
 Bundle 'gmarik/vundle'
 " Bundles!
 Bundle 'Valloric/YouCompleteMe'
+Bundle 'derekwyatt/vim-scala'
+Bundle 'editorconfig/editorconfig-vim'
+Bundle 'jnwhiteh/vim-golang'
 Bundle 'kchmck/vim-coffee-script'
-Bundle 'kevinw/pyflakes-vim'
 Bundle 'kien/ctrlp.vim'
-Bundle 'knatten/ToggleComment'
-Bundle 'pylint.vim'
-Bundle 'riking/ag.vim'
 Bundle 'scrooloose/syntastic'
 Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-surround'
-Bundle 'editorconfig/editorconfig-vim'
+Bundle 'mileszs/ack.vim'
+Bundle 'JazzCore/ctrlp-cmatcher'
 filetype plugin indent on
