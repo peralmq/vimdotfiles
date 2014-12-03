@@ -24,6 +24,7 @@ au BufNewFile,BufRead *.tac set filetype=python
 au FileType python set softtabstop=4 tabstop=4 shiftwidth=4 colorcolumn=120
 
 au BufNewFile,BufRead *.hamlc set filetype=haml
+au BufNewFile,BufRead *.gradle set filetype=groovy
 
 filetype plugin indent on
 
@@ -56,9 +57,6 @@ set list listchars=tab:\|\ ,trail:·
 " show the current mode
 set showmode
 
-" Python (un)comment
-map ,# :call CommentLineToEnd('#')<CR>+
-
 " Folding on indent and open unfolded
 set foldmethod=indent
 set foldlevel=99
@@ -70,15 +68,20 @@ set scrolljump=5
 
 " Ignore the follwing files in ctrlp
 set wildignore+=*.pyc,*.orig,*.egg-info
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+let g:ctrlp_custom_ignore='\v[\/](target|dist)|(\.(swp|ico|git|svn))$'
 
 " Let ctrlp keep searching from where vim was started
 let g:ctrlp_working_path_mode = ''
 
+" Syntastic
 let g:syntastic_python_checkers=['flake8'] " pylint, pyflake, macbe
+let g:syntastic_check_on_open=1
 
 " YouCompleteMe
 let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_path_to_python_interpreter = '/usr/local/bin/python'
+let g:ycm_server_keep_logfiles = 1
+let g:ycm_server_log_level = 'debug'
 
 if executable('ag')
   let g:ackprg = 'ag --nogroup --nocolor --column -w'
@@ -93,19 +96,20 @@ autocmd BufWritePre *.go Fmt
 
 " Vundle
 filetype off
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-Bundle 'gmarik/vundle'
-" Bundles!
-Bundle 'Valloric/YouCompleteMe'
-Bundle 'derekwyatt/vim-scala'
-Bundle 'editorconfig/editorconfig-vim'
-Bundle 'jnwhiteh/vim-golang'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'kien/ctrlp.vim'
-Bundle 'scrooloose/syntastic'
-Bundle 'tpope/vim-commentary'
-Bundle 'tpope/vim-haml'
-Bundle 'mileszs/ack.vim'
-Bundle 'JazzCore/ctrlp-cmatcher'
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+" Plugins!
+Plugin "marijnh/tern_for_vim"
+Plugin "pangloss/vim-javascript"
+Plugin 'JazzCore/ctrlp-cmatcher'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'jelera/vim-javascript-syntax'
+Plugin 'jnwhiteh/vim-golang'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-commentary'
+call vundle#end()
 filetype plugin indent on
