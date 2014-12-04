@@ -75,6 +75,7 @@ let g:ctrlp_working_path_mode = ''
 
 " Syntastic
 let g:syntastic_python_checkers=['flake8'] " pylint, pyflake, macbe
+let g:syntastic_javascript_checkers = ['jscs','jshint']
 let g:syntastic_check_on_open=1
 
 " YouCompleteMe
@@ -100,14 +101,12 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 " Plugins!
-Plugin "marijnh/tern_for_vim"
-Plugin "pangloss/vim-javascript"
+Plugin 'marijnh/tern_for_vim'
+Plugin 'pangloss/vim-javascript'
 Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'jelera/vim-javascript-syntax'
-Plugin 'jnwhiteh/vim-golang'
-Plugin 'kchmck/vim-coffee-script'
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-commentary'
